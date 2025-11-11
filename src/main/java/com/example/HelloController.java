@@ -1,9 +1,13 @@
 package com.example;
 
+import javafx.application.Platform;
+import javafx.beans.value.ObservableStringValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 /**
  * Controller layer: mediates between the view (FXML) and the model.
@@ -11,21 +15,28 @@ import javafx.scene.control.ListView;
 public class HelloController {
 
     private final HelloModel model = new HelloModel();
-    public ListView<NtfyMessage> messageView;
 
     @FXML
-    private Label messageLabel;
+    private TabPane tabPane;
+    @FXML
+    private TextField input;
 
     @FXML
     private void initialize() {
-        if (messageLabel != null) {
-            messageLabel.setText(model.getGreeting());
+        if(tabPane.getTabs().size() == 0) {
+            model.addTopic(tabPane);
         }
-        messageView.setItems(model.getMessageHistory());
-        model.receiveMessage();
     }
 
     public void sendMessage(ActionEvent actionEvent) {
-        model.sendMessage();
+        model.sendMessage(tabPane.getSelectionModel(),input.getText().trim());
+        input.clear();
     }
+
+    public void addTopic(ActionEvent actionEvent) {
+        model.addTopic(tabPane);
+    }
+
+
+
 }

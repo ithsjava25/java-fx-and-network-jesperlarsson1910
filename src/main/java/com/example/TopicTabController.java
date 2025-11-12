@@ -16,16 +16,31 @@ import java.net.http.HttpClient;
  */
 public class TopicTabController {
 
+    private HelloController helloController;
+
     private TopicTabModel topicTabModel;
+
+    @FXML
+    private Label topicLabel;
 
     @FXML
     public ListView<NtfyMessage> messageView;
 
     @FXML
-    private void initialize(String newTopic, String HOSTNAME, HttpClient httpClient) {
-        topicTabModel = new TopicTabModel(newTopic, HOSTNAME, httpClient);
+    private void initialize() {
+
+    }
+    public void superSetter(String newTopic, String HOSTNAME, HttpClient httpClient){
+       //topicTabModel = new TopicTabModel(newTopic, HOSTNAME, httpClient);
         messageView.setItems(topicTabModel.getMessageHistory());
+        topicLabel.setText(topicLabel.getText());
     }
 
+    public TopicTabModel getTopicTabModel() {
+        return topicTabModel;
+    }
 
+    public void setMainWindowController(HelloController helloController) {
+        this.helloController = helloController;
+    }
 }

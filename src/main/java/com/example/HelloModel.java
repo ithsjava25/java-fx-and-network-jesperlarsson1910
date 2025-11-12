@@ -2,8 +2,11 @@ package com.example;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
@@ -30,6 +33,13 @@ public class HelloModel {
         HOSTNAME = Objects.requireNonNull(dotenv.get("HOSTNAME"));
     }
 
+    public HttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    public String getHostname() {
+        return HOSTNAME;
+    }
 
     public void sendMessage(SingleSelectionModel<Tab> tab, String message) {
         if(topicChange.matcher(message).matches()) {
@@ -50,49 +60,6 @@ public class HelloModel {
                 System.err.println("Interrupted sending message");
             }
         }
-    }
-
-    public void addTopic(TabPane tabPane) {
-        Dialog dialog = new Dialog();
-        dialog.setTitle("Add Topic");
-
-        ButtonType addTopicButton = new ButtonType("Add Topic", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(addTopicButton, ButtonType.CANCEL);
-
-        TextField topic = new TextField();
-        topic.setPromptText("Topic");
-
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-
-        gridPane.add(topic, 0, 0);
-
-        dialog.getDialogPane().setContent(gridPane);
-
-        Platform.runLater(() -> topic.requestFocus());
-
-        dialog.setResultConverter(pressedButton -> {
-            if (pressedButton == addTopicButton) {
-                addTopic(topic.getText().trim(), tabPane);
-            }
-            return null;
-        });
-
-        dialog.show();
-    }
-
-    public void addTopic(String topic, TabPane tabPane) {
-        TopicTabModel newTopic = new TopicTabModel(topic, HOSTNAME, httpClient);
-
-        try {
-            newTopic.setContent(FXMLLoader.load(HelloFX.class.getResource("tab-view.fxml")));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        tabPane.getTabs().add(newTopic);
     }
 }
 

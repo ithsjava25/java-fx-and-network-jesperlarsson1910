@@ -23,7 +23,7 @@ public class HelloModel {
     private final NtfyConnection connection;
 
     private final ObservableList<NtfyMessage> messageHistory = FXCollections.observableArrayList();
-    private final ObservableList<Object> formatedMessages = FXCollections.observableArrayList();
+    private final ObservableList<Object> formattedMessages = FXCollections.observableArrayList();
 
 
     public HelloModel(NtfyConnection connection) {
@@ -31,8 +31,8 @@ public class HelloModel {
     }
 
 
-    public ObservableList<Object> getFormatedMessages() {
-        return formatedMessages;
+    public ObservableList<Object> getFormattedMessages() {
+        return formattedMessages;
     }
 
     public ObservableList<NtfyMessage> getMessageHistory() {
@@ -51,7 +51,7 @@ public class HelloModel {
      * Clears the display before opening a new connection to a topic and displaying it
      */
     public void receiveMessage() {
-        formatedMessages.clear();
+        formattedMessages.clear();
         connection.recieve(m -> Platform.runLater(() -> logMessage(m)));
     }
 
@@ -74,12 +74,12 @@ public class HelloModel {
                     image.setFitHeight ( 250 );
                     image.setFitWidth ( 250 );
 
-                    formatedMessages.addFirst(image);
+                    formattedMessages.addFirst(image);
                 }
 
                 else{
                     Hyperlink hyperlink = new Hyperlink(url.toExternalForm());
-                    formatedMessages.addFirst(hyperlink);
+                    formattedMessages.addFirst(hyperlink);
                 }
 
             } catch (IOException e) {
@@ -91,7 +91,7 @@ public class HelloModel {
         Date timeStamp = new Date(message.time()*1000);
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String stringMessage = dateFormat.format(timeStamp) + " : " + message.message();
-        formatedMessages.addFirst(stringMessage);
+        formattedMessages.addFirst(stringMessage);
     }
 
     /**

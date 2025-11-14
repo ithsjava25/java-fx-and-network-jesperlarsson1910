@@ -31,7 +31,7 @@ public class HelloController {
     @FXML
     private void initialize() {
         topic.textProperty().bind(connection.topicProperty());
-        messageView.setItems(model.getFormatedMessages());
+        messageView.setItems(model.getFormattedMessages());
         model.receiveMessage();
     }
 

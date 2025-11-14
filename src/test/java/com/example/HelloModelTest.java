@@ -38,5 +38,4 @@ public class HelloModelTest {
         verify(postRequestedFor(urlEqualTo("/JUV25D")).withRequestBody(containing("Hello World")));
 
     }
-
 }

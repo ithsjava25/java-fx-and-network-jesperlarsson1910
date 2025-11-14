@@ -18,15 +18,16 @@ public class HelloController {
     private final NtfyConnection connection = new NtfyConnectionImpl();
     private final HelloModel model = new HelloModel(connection);
 
+    @FXML
     public ListView<Object> messageView;
 
     @FXML
     private Label topic;
 
     @FXML
-    TextField input;
+    private TextField input;
 
-    File attachment = null;
+    private File attachment = null;
 
     @FXML
     private void initialize() {

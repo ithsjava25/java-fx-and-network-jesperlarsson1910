@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
 
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.HelloController">
-    <children>
-        <Label fx:id="messageLabel" text="Hello, JavaFX!" />
-    </children>
-</StackPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.HelloController">
+   <center>
+      <VBox>
+         <children>
+             <ListView fx:id="messageView" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+       <HBox spacing="2" BorderPane.alignment="CENTER">
+           <TextField fx:id="input" onAction="#sendMessage" promptText="..." HBox.hgrow="ALWAYS" />
+           <Button alignment="BOTTOM_RIGHT" onAction="#sendMessage" text="Send" />
+           <MenuButton mnemonicParsing="false" text="Menu">
+               <items>
+                   <MenuItem fx:id="addTopic" mnemonicParsing="false" onAction="#changeTopic" text="Change Topic" />
+                   <SeparatorMenuItem mnemonicParsing="false" />
+                   <MenuItem mnemonicParsing="false" onAction="#sendFile" text="Add File" />
+               </items>
+           </MenuButton>
+       </HBox>
+   </bottom>
+   <top>
+       <Label fx:id="topic" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

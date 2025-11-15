@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,14 +57,33 @@ public class HelloModelTest {
     }
 
     @Test
-    public void recieveMessageFromFakeServer(WireMockRuntimeInfo wireMockRuntimeInfo){
-        var con = new NtfyConnectionImpl("http://localhost:" + wireMockRuntimeInfo.getHttpPort());
-        var model = new HelloModel(con);
+    @DisplayName("Recieve messages from server  when called")
+    void receiveMessageFromFakeServer(WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
 
-        boolean result = model.sendMessage("HelloWorld");
+        var connection = new NtfyConnectionImpl("http://localhost:" + wmRuntimeInfo.getHttpPort());
 
+        CompletableFuture<NtfyMessage> receivedMessageFuture = new CompletableFuture<>();
 
+        String responseBody = "{\"id\":\"testID\",\"time\":1234567890,\"event\":\"message\",\"topic\":\"JUV25D\",\"message\":\"Test\"}\n";
+
+        stubFor(get("/JUV25D/json?since=all")
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withBody(responseBody)
+                        .withHeader("Content-Type", "application/json")));
+
+        connection.recieve(receivedMessageFuture::complete);
+
+        NtfyMessage response = receivedMessageFuture.get(5, java.util.concurrent.TimeUnit.SECONDS);
+
+        verify(getRequestedFor(urlEqualTo("/JUV25D/json?since=all")));
+
+        assertThat(response).isNotNull();
+        assertThat(response.event()).isEqualTo("message");
+        assertThat(response.topic()).isEqualTo("JUV25D");
+        assertThat(response.message()).isEqualTo("Test");
     }
+
 
     @Test
     @DisplayName("Handle basic test message, image attachment and other attachment separately")

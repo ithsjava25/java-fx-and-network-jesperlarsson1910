@@ -125,6 +125,7 @@ public class NtfyConnectionImpl implements NtfyConnection {
 
     @Override
     public void recieve(Consumer<NtfyMessage> messageHandler) {
+
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(HOSTNAME + "/" + topic.getValue() + "/json?since=all"))

@@ -100,7 +100,7 @@ public class HelloModelTest {
         String formatedMessage1 = dateFormat.format(timeStamp1) + " : " + message1.message();
 
         //message with image attachment
-        String mandrillURL = "https://www.researchgate.net/publication/259521525/figure/fig9/AS:268029699293189@1440914668284/Original-standard-test-image-of-Mandrill-also-known-as-Baboon.png";
+        String mandrillURL = "http://localhost";
         HashMap<String,String> attachment1 = new HashMap<>();
         attachment1.put("name", "mandrill");
         attachment1.put("url", mandrillURL);
@@ -108,7 +108,7 @@ public class HelloModelTest {
 
         NtfyMessage message2 = new NtfyMessage("message2", 1234567891L, "message", "testTopic", "test2", attachment1);
 
-        ImageView testImage = new ImageView(new Image(mandrillURL));
+        ImageView testImage = new ImageView(new Image("/Mandrill.png"));
         testImage.setPreserveRatio(true);
         testImage.setFitHeight ( 250 );
         testImage.setFitWidth ( 250 );

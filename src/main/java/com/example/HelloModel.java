@@ -13,7 +13,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 /**
@@ -44,8 +43,8 @@ public class HelloModel {
      * Sends a string as message
      * @param message String to send
      */
-    public void sendMessage(String message) {
-        connection.send(message);
+    public boolean sendMessage(String message) {
+        return connection.send(message);
     }
 
     /**
@@ -55,12 +54,6 @@ public class HelloModel {
         formattedMessages.clear();
         connection.recieve(m -> Platform.runLater(() -> logMessage(m)));
     }
-
-    public void receiveMessage(Consumer<NtfyMessage> messageHandler) {
-        formattedMessages.clear();
-        connection.recieve(messageHandler);
-    }
-
 
     /**
      * Adds the message to internal message history and the values to be displayed formated in the display list

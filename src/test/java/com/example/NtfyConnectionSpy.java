@@ -7,7 +7,8 @@ import java.util.function.Consumer;
 
 public class NtfyConnectionSpy implements NtfyConnection{
 
-    private SimpleStringProperty topic = new SimpleStringProperty();
+    SimpleStringProperty topic = new SimpleStringProperty();
+    Consumer<NtfyMessage> messageHandler;
 
     String message;
 
@@ -34,7 +35,7 @@ public class NtfyConnectionSpy implements NtfyConnection{
 
     @Override
     public void recieve(Consumer<NtfyMessage> messageHandler) {
-
+        this.messageHandler = messageHandler;
     }
 
     @Override
